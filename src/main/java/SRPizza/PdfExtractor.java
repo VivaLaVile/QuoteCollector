@@ -21,11 +21,12 @@ public class PdfExtractor implements IExtractor{
             PDFTextStripper stripper = new PDFTextStripper();
             stripper.setStartPage(1);
             stripper.setEndPage(1);
+            this.stripper = stripper;
         } catch (IOException e){
             System.out.println("Failed to create PDFTextStripper: " + e.getMessage());
         }
         //if try block fails, this will be null - will that make things fail gracefully later on?
-        this.stripper = stripper;
+        //this.stripper = stripper;
 
     }
 
@@ -72,38 +73,39 @@ public class PdfExtractor implements IExtractor{
 
     @Override
     public String extractCustomer() throws IOException {
-        return null;
-    }
-
-
-    @Override
-    public QuoteDoc createQuoteDocFromPath(String filePath) throws IOException {
-        File file = new File(filePath);
-        System.out.println("Loading PDF from" + filePath);
-        PDDocument pdDoc = PDDocument.load(file);
-
+        PDDocument pdDoc = PDDocument.load(this.currentFile);
         return stripper.getText(pdDoc);
-
-        QuoteDoc quoteDoc = new QuoteDoc();
-
-
-
-
-
-
-        return quoteDoc;
-
     }
 
-    @Override
-    public QuoteDoc addFieldsToQuoteDoc(QuoteDoc quoteDoc) {
 
-
-        //need an extract method for every field of quotedoc
-
-
-
-
-
-    }
+//    @Override
+//    public QuoteDoc createQuoteDocFromPath(String filePath) throws IOException {
+//        File file = new File(filePath);
+//        System.out.println("Loading PDF from" + filePath);
+//        PDDocument pdDoc = PDDocument.load(file);
+//
+//        return stripper.getText(pdDoc);
+//
+//        QuoteDoc quoteDoc = new QuoteDoc();
+//
+//
+//
+//
+//
+//
+//        return quoteDoc;
+//
+//    }
+//
+//    @Override
+//    public QuoteDoc addFieldsToQuoteDoc(QuoteDoc quoteDoc) {
+//
+//
+//        //need an extract method for every field of quotedoc
+//
+//
+//
+//
+//
+//    }
 }
